@@ -8,31 +8,40 @@
     <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/style.css" />
     <link rel="stylesheet" href="https://use.typekit.net/mdn1alb.css">
 </head>
-<body class="splash">
+<body class="game">
     <div class="wrapper">
-        <div class="game-title">
-            <h1 class="title has-text-bold has-text-uppercase">Wrath <span class="has-text-light">of</span> Ancient Egypt</h1>
-            <h2 class="subtitle has-text-light has-text-uppercase">An online multiplayer Ludo game</h2>
+        <div class="player player-blue">
+            <img class="player-coin" src="images/coin-blue@2x.png" />
+            <h3 class="player-name"><%=username%></h3>
         </div>
+        <div class="player player-orange">
+            <img class="player-coin" src="images/coin-orange@2x.png" />
+            <h3 class="player-name"><%=username%></h3>
+        </div>
+        <div class="player player-green">
+            <img class="player-coin" src="images/coin-green@2x.png" />
+            <h3 class="player-name"><%=username%></h3>
+        </div>
+        <div class="player player-yellow">
+            <img class="player-coin" src="images/coin-yellow@2x.png" />
+            <h3 class="player-name"><%=username%></h3>
+        </div>
+        <div class="control-buttons">
+                <div class="close-btn" onclick="toggleModalVisibility(modals.exitGame);"><img src="images/close@2x.png"/></div>
+                <div class="help-btn" onclick="toggleModalVisibility(modals.help);"><img src="images/help@2x.png"/></div>
+        </div>
+    </div>
 
-        <div class="game-buttons">
-            <button onclick="toggleModalVisibility(modals.enterGame);" class="btn has-text-uppercase text-color-white has-box-shadow">Start playing</button>
-            <button onclick="toggleModalVisibility(modals.help);" class="btn has-text-uppercase text-color-white has-box-shadow">How to play?</button>
-            <button onclick="toggleModalVisibility(modals.about);" class="btn has-text-uppercase text-color-white has-box-shadow">About</button>
-        </div>
+    <div id="exit-game-modal" class="modal has-box-shadow has-text-light">
+        <div class="close-btn" onclick="toggleModalVisibility(modals.exitGame);"><img src="images/close@2x.png"/></div>
+        <h2 class="has-text-uppercase">Do you want to exit this game?</h2>
+        <hr>
+        <p>You are about to leave the game. This will terminate the session for all players. Are you sure? </p>
+        <a class="exit-btn" href="/">Return to homepage</a>
+    </div>
 
-        <div class="game-stats">
-            <ul>
-                <li class="stat has-text-uppercase"><span class="has-text-bold">6</span> games currently ongoing.</li>
-                <li class="stat has-text-uppercase"><span class="has-text-bold">28</span> players online right now.</li>
-                <li class="stat has-text-uppercase"><span class="has-text-bold">103</span> games finished in the last 24 hours.</li>
-            </ul>
-        </div>
-        <div class="game-view">
-                <img src="images/gameview@2x.png" />
-        </div>
-        <div id="help-modal" class="modal has-box-shadow has-text-light">
-            <div class="close-btn" onclick="toggleModalVisibility(modals.help);"><img src="images/close@2x.png"/></div>
+    <div id="help-modal" class="modal has-box-shadow has-text-light">
+        <div class="close-btn" onclick="toggleModalVisibility(modals.help);"><img src="images/close@2x.png"/></div>
             <h2 class="has-text-uppercase">How to play this game?</h2>
             <hr>
             <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Veritatis, voluptates totam itaque eligendi voluptate illum! Enim inventore magni recusandae ab qui, aliquid mollitia labore in et magnam at dicta veritatis?
@@ -54,37 +63,6 @@
                 </p>
             </p>
         </div>
-        <div id="enter-game-modal" class="modal has-box-shadow">
-            <div class="close-btn" onclick="toggleModalVisibility(modals.enterGame);"><img src="images/close@2x.png"/></div>
-            <h2 class="has-text-uppercase">Almost ready!</h2>
-            <hr>
-            <form action="/game">
-                <span class="has-text-regular">Enter a username:</span></br>
-                <input type="text" name="username" placeholder="username" pattern="[a-zA-Z0-9_-@$&]+" maxlength="12" minlength="3" required>
-                <input type="submit" value="Start the game!"></br>
-                <span class="has-text-light"><em>
-                    <ul>
-                        <li>Please use <strong>only</strong> letters, numbers and _ - @ $ &</li>
-                        <li>Use between 3-12 characters</li>
-                        <li>No spaces allowed</li>
-                    </ul>
-                </em></span>
-            </form>
-        </div>
-        <div id="about-modal" class="modal has-box-shadow has-text-light">
-                <div class="close-btn" onclick="toggleModalVisibility(modals.about);"><img src="images/close@2x.png"/></div>
-                <h2 class="has-text-uppercase">About this game</h2>
-                <hr>
-                <p>
-                This game was made by Hanneke & Maurits, as part of the assignments for the TU Delft's CSE1500 <a href="https://github.com/chauff/Web-Teaching#assignments" target="_blank" rel="nofollow">Web&Database course</a>. And was build upon node.js.</p>
-                <p>Assets have been drawn ourselves, and are free to use for anything you want in accordance with the <a href="https://creativecommons.org/choose/zero/" target="_blank" rel="nofollow">CC0 license</a>. 
-                </p>
-                <p>
-                    Hit Hanneke up on Instagram: <a href="https://www.instagram.com/hanneke.post/" target="_blank" rel="nofollow">@hanneke.post</a></br>
-                    Or Maurits on Twitter: <a href="https://twitter.com/mauritsmisana" target="_blank" rel="nofollow">@mauritsmisana</a>
-                </p>
-            </div>
-    </div>
-    <script src="javascripts/splash.js"></script>
+    <script src="javascripts/game.js"></script>
 </body>
 </html>

@@ -4,7 +4,6 @@ html {
 }
 
 body {
-  padding: 40px;
   margin: 0;
   font-family: caslons-egyptian,sans-serif;
   font-weight: 400;
@@ -15,6 +14,14 @@ body {
   background-size: 300px;
 }
 
+body.splash {
+  padding: 40px;
+}
+
+body.game {
+  padding: 20px;
+}
+
 img {
   max-width: 100%;
 }
@@ -22,11 +29,17 @@ img {
 .wrapper {
   position: relative;
   display: flex;
-  height: calc(100vh - 100px);
+}
+
+body.splash .wrapper {
   flex-direction: column;
   align-items: flex-end;
-  align-content: space-between;
   justify-content: space-between;
+  height: calc(100vh - 80px);
+}
+
+body.game .wrapper {
+  height: calc(100vh - 40px);
 }
 
 .has-text-light {
@@ -67,7 +80,6 @@ img {
 }
 
 .btn {
-  padding: 0.25em 1em;
   border-radius: 40px;
   background: linear-gradient(#b2a159 0%, #957e27 100%);
   font-family: caslons-egyptian,sans-serif;
@@ -87,12 +99,12 @@ img {
   margin-top: 24px;
 }
 
-.game-buttons .btn {
+.splash .game-buttons .btn {
   margin-right: 0;
   margin-left: auto;
 }
 
-.game-stats ul {
+.splash .game-stats ul {
   margin: 0;
   padding: 0;
   list-style: none;
@@ -100,29 +112,25 @@ img {
   line-height: 1.2;
 }
 
-.game-stats li.stat {
+.splash .game-stats li.stat {
   font-size: 1.5em;
 }
 
-.game-stats li.stat span {
-  margin-right: 6px;
-}
-
-.game-view {
+.splash .game-view {
   position: absolute;
   bottom: 0;
   left: 0;
   z-index: -1;
 }
 
-.game-view img {
+.splash .game-view img {
   max-height: 75vh;
   max-width: 55vw;
 }
 
 .modal {
   background: linear-gradient(#fffeed 0%, #fffeea 34.09%, #fffdd5 100%);
-  width: 90vw;
+  width: 70vw;
   max-width: 550px;
   height: auto;
   max-height: 80vh;
@@ -147,6 +155,7 @@ img {
 .modal h2 {
   font-size: 2em;
   margin-bottom: 0.4em;
+  text-align: left;
 }
 
 .modal.open {
@@ -180,7 +189,6 @@ img {
 }
 
 .modal input[type="submit"] {
-  padding: 0.25em 1em;
   border-radius: 20px;
   background: linear-gradient(#b2a159 0%, #957e27 100%);
   font-family: caslons-egyptian,sans-serif;
@@ -196,3 +204,74 @@ img {
   padding: 0;
   margin: 16px 0 0;
 }
+
+body.game .control-buttons {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+body.game .control-buttons div {
+  width: 48px;
+  height: 48px;
+}
+
+body.game .control-buttons div:not(:first-of-type) {
+  margin-top: 12px;
+}
+
+body.game .exit-btn {
+  background: linear-gradient(#b2a159 0%, #957e27 100%);
+  border-radius: 20px;
+  font-family: caslons-egyptian,sans-serif;
+  font-weight: 400;
+  padding: 0.5em 0.75em;
+  font-size: 1.1em;
+  border-style: none;
+  color: white;
+  display: inline-block;
+  text-transform: uppercase;
+  text-decoration: none;
+
+}
+
+body.game .player {
+  position: absolute;
+  overflow: hidden;
+  max-width: 15vw;
+}
+
+body.game .player img.player-coin {
+  max-width: 7vw;
+}
+
+body.game .player .player-name {
+  text-transform: uppercase;
+  margin: 12px 0 0;
+}
+
+body.game .player.player-blue {
+  top: 0;
+  left: 0;
+  text-align: left;
+}
+
+body.game .player.player-orange {
+  top: 0;
+  right: 0;
+  text-align: right;
+}
+
+body.game .player.player-green {
+  bottom: 0;
+  left: 0;
+  text-align: left;
+}
+
+body.game .player.player-yellow {
+  bottom: 0;
+  right: 0;
+  text-align: right;
+}
+
