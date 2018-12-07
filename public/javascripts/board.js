@@ -1,5 +1,5 @@
 const Board = function() {
-	this.initialize();
+	this.init();
 };
 
 Board.map = [
@@ -18,7 +18,7 @@ Board.map = [
 	[0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0]
 ];
 
-Board.prototype.initialize = function() {
+Board.prototype.init = function() {
 	this.buffer = document.createElement("canvas").getContext("2d");
 	this.context = document.querySelector("canvas").getContext("2d");
 	this.size = 32;
@@ -36,20 +36,21 @@ Board.prototype.drawMap = function() {
 	const imgNeutral1 = new Image();
 	const imgNeutral2 = new Image();
 
-	const draw = function() {
+	const draw = () => {
 		for (let x=0; x < Board.map.length; x++) {
 			for (let y=0; y <  Board.map.length; y++) {
 				switch(Board.map[y][x]) {
 				case 0: break;
-				case 1: this.buffer.fillStyle ="#eee"; this.buffer.fillRect(x*this.size, y*this.size, this.size, this.size); break;
-				case 2: this.buffer.fillStyle="#eee"; this.buffer.fillRect(x*this.size, y*this.size, this.size, this.size); break;
-				case 3: this.buffer.fillStyle="#444"; this.buffer.fillRect(x*this.size, y*this.size, this.size, this.size); break;
-				case 4: this.buffer.fillStyle="#999"; this.buffer.fillRect(x*this.size, y*this.size, this.size, this.size); break;
-				case 5: this.buffer.fillStyle="#000"; this.buffer.fillRect(x*this.size, y*this.size, this.size, this.size); break;
+				case 1: this.buffer.fillStyle=this.buffer.createPattern(imgNeutral1, "repeat"); this.buffer.fillRect(x*this.size, y*this.size, this.size, this.size); break;
+				case 2: this.buffer.fillStyle=this.buffer.createPattern(imgBlue, "repeat"); this.buffer.fillRect(x*this.size, y*this.size, this.size, this.size); break;
+				case 3: this.buffer.fillStyle=this.buffer.createPattern(imgOrange, "no-repeat"); this.buffer.fillRect(x*this.size, y*this.size, this.size, this.size); break;
+				case 4: this.buffer.fillStyle=this.buffer.createPattern(imgYellow, "no-repeat"); this.buffer.fillRect(x*this.size, y*this.size, this.size, this.size); break;
+				case 5: this.buffer.fillStyle=this.buffer.createPattern(imgMunt, "no-repeat"); this.buffer.fillRect(x*this.size, y*this.size, this.size, this.size); break;
 				default: break;
 				}
 			}
 		}
+		console.log(imgBlue);
 		this.context.drawImage(this.buffer.canvas, 0, 0, this.buffer.canvas.width, this.buffer.canvas.height, 0, 0, this.context.canvas.width, this.context.canvas.height);
 	};
 
