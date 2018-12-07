@@ -240,6 +240,12 @@ body.game .player {
   position: absolute;
   overflow: hidden;
   max-width: 15vw;
+  text-align: center;
+  opacity: 0.4;
+}
+
+body.game .player.active {
+  opacity: 1;
 }
 
 body.game .player img.player-coin {
@@ -254,24 +260,20 @@ body.game .player .player-name {
 body.game .player.player-blue {
   top: 0;
   left: 0;
-  text-align: left;
 }
 
 body.game .player.player-orange {
   top: 0;
   right: 0;
-  text-align: right;
 }
 
 body.game .player.player-green {
   bottom: 0;
   left: 0;
-  text-align: left;
 }
 
 body.game .player.player-yellow {
   bottom: 0;
   right: 0;
-  text-align: right;
 }
 

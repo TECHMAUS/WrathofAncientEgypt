@@ -450,3 +450,10 @@ ASALocalRun/
 .localhistory/
 
 # End of https://www.gitignore.io/api/node,macos,visualstudio
+
+# Visual Studio Code
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json

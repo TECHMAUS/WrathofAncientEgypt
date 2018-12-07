@@ -32,12 +32,14 @@
         </div>
     </div>
 
+    <canvas></canvas>
+
     <div id="exit-game-modal" class="modal has-box-shadow has-text-light">
         <div class="close-btn" onclick="toggleModalVisibility(modals.exitGame);"><img src="images/close@2x.png"/></div>
-        <h2 class="has-text-uppercase">Do you want to exit this game?</h2>
+        <h2 class="has-text-uppercase">Do you want to end this game?</h2>
         <hr>
-        <p>You are about to leave the game. This will terminate the session for all players. Are you sure? </p>
-        <a class="exit-btn" href="/">Return to homepage</a>
+        <p>You're about to leave the game. This will <strong>terminate</strong> the session for <strong>all</strong> players. Are you sure? </p>
+        <a class="exit-btn" href="/">Yes, return to the homepage</a>
     </div>
 
     <div id="help-modal" class="modal has-box-shadow has-text-light">
@@ -64,5 +66,6 @@
             </p>
         </div>
     <script src="javascripts/game.js"></script>
+    <script src="javascripts/board.js"></script>
 </body>
 </html>

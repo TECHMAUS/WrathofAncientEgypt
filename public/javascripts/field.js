@@ -12,8 +12,8 @@ const Field = function (x, y, type) {
 };
 
 /**
- * Retrieve pawn standing on this field
- * @return {Object} Present pawn or null
+ * Returns the pawn that is standing on this field
+ * @return {Object} Either pawn or null
  */
 Field.prototype.getPawn = function () {
 	return this.pawn;
