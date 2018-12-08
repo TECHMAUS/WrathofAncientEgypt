@@ -277,3 +277,11 @@ body.game .player.player-yellow {
   right: 0;
 }
 
+body.game #board-layout-canvas {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: -1;
+}
+

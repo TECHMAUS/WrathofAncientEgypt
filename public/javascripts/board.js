@@ -3,102 +3,186 @@ const Board = function() {
 };
 
 Board.map = [
-	[0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0],
-	[0, 0, 0, 0, 0, 1, 3, 3, 0, 0, 0, 0, 0],
+	[0, 0, 0, 0, 0, 1, 1, "3s", 0, 0, 0, 0, 0],
+	[0, 0, 0, 0, 0, 1, 3, 1, 0, 0, 0, 0, 0],
 	[0, 0, 2, 2, 0, 1, 3, 1, 0, 3, 3, 0, 0],
 	[0, 0, 2, 2, 0, 1, 3, 1, 0, 3, 3, 0, 0],
 	[0, 0, 0, 0, 0, 1, 3, 1, 0, 0, 0, 0, 0],
-	[1, 2, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1],
+	["2s", 1, 1, 1, 1, 6, 0, 0, 1, 1, 1, 1, 1],
 	[1, 2, 2, 2, 2, 0, 0, 0, 4, 4, 4, 4, 1],
-	[1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 4, 1],
+	[1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, "4s"],
 	[0, 0, 0, 0, 0, 1, 5, 1, 0, 0, 0, 0, 0],
 	[0, 0, 5, 5, 0, 1, 5, 1, 0, 4, 4, 0, 0],
 	[0, 0, 5, 5, 0, 1, 5, 1, 0, 4, 4, 0, 0],
-	[0, 0, 0, 0, 0, 5, 5, 1, 0, 0, 0, 0, 0],
-	[0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0]
+	[0, 0, 0, 0, 0, 1, 5, 1, 0, 0, 0, 0, 0],
+	[0, 0, 0, 0, 0, "5s", 1, 1, 0, 0, 0, 0, 0]
 ];
 
 Board.prototype.init = function() {
 	this.buffer = document.createElement("canvas").getContext("2d");
 	this.context = document.querySelector("canvas").getContext("2d");
-	this.size = 32;
-	this.buffer.canvas.width = 13 * this.size;
-	this.buffer.canvas.height = 13 * this.size;
+	this.size = 144;
+	this.gap = 40;
+	this.buffer.canvas.width = 13 * this.size + 12 * this.gap;
+	this.buffer.canvas.height = 13 * this.size + 12 * this.gap;
 
 	this.resize();
 };
 
 Board.prototype.drawMap = function() {
-	const imgBlue = new Image();
-	const imgOrange = new Image();
-	const imgYellow = new Image();
-	const imgMunt = new Image();
-	const imgNeutral1 = new Image();
-	const imgNeutral2 = new Image();
 
-	const draw = () => {
-		for (let x=0; x < Board.map.length; x++) {
-			for (let y=0; y <  Board.map.length; y++) {
-				switch(Board.map[y][x]) {
-				case 0: break;
-				case 1: this.buffer.fillStyle=this.buffer.createPattern(imgNeutral1, "repeat"); this.buffer.fillRect(x*this.size, y*this.size, this.size, this.size); break;
-				case 2: this.buffer.fillStyle=this.buffer.createPattern(imgBlue, "repeat"); this.buffer.fillRect(x*this.size, y*this.size, this.size, this.size); break;
-				case 3: this.buffer.fillStyle=this.buffer.createPattern(imgOrange, "no-repeat"); this.buffer.fillRect(x*this.size, y*this.size, this.size, this.size); break;
-				case 4: this.buffer.fillStyle=this.buffer.createPattern(imgYellow, "no-repeat"); this.buffer.fillRect(x*this.size, y*this.size, this.size, this.size); break;
-				case 5: this.buffer.fillStyle=this.buffer.createPattern(imgMunt, "no-repeat"); this.buffer.fillRect(x*this.size, y*this.size, this.size, this.size); break;
-				default: break;
+	let i = 1;
+
+	for (let y=0; y < Board.map.length; y++) {
+		for (let x=0; x <  Board.map.length; x++) {
+			i++;
+			switch(Board.map[y][x]) {
+			case 0: 
+				break;
+			case 1: 
+				if (i % 2 == 0) {
+					this.buffer.drawImage(this.imgNeutral1, x*this.size + x*this.gap, y*this.size + y*this.gap, this.size, this.size);
+				} 
+				else {
+					this.buffer.drawImage(this.imgNeutral2, x*this.size + x*this.gap, y*this.size + y*this.gap, this.size, this.size);
 				}
+				break;
+			case 2: 
+				if ((x == 2 && (y == 2 || y == 3)) || (x == 3 && (y == 2 || y == 3)) ) {
+					this.buffer.drawImage(this.imgBlue, x*this.size + x*this.gap + this.size / 1.5, y*this.size + y*this.gap + this.size / 1.5, this.size, this.size);
+				} else {
+					this.buffer.drawImage(this.imgBlue, x*this.size + x*this.gap, y*this.size + y*this.gap, this.size, this.size);
+				}
+				break;
+			case 3: 
+				if ((x == 9 && (y == 2 || y == 3)) || (x == 10 && (y == 2 || y == 3)) ) {
+					this.buffer.drawImage(this.imgOrange, x*this.size + x*this.gap - this.size / 1.5, y*this.size + y*this.gap + this.size / 1.5, this.size, this.size);
+				} else {
+					this.buffer.drawImage(this.imgOrange, x*this.size + x*this.gap, y*this.size + y*this.gap, this.size, this.size);
+				}
+				break;
+			case 4: 
+				if ((x == 9 && (y == 9 || y == 10)) || (x == 10 && (y == 9 || y == 10)) ) {
+					this.buffer.drawImage(this.imgYellow, x*this.size + x*this.gap - this.size / 1.5, y*this.size + y*this.gap - this.size / 1.5, this.size, this.size);
+				} else {
+					this.buffer.drawImage(this.imgYellow, x*this.size + x*this.gap, y*this.size + y*this.gap, this.size, this.size); 
+				}
+				break;
+			case 5: 
+				if ((x == 2 && (y == 9 || y == 10)) || (x == 3 && (y == 9 || y == 10)) ) {
+					this.buffer.drawImage(this.imgGreen, x*this.size + x*this.gap + this.size / 1.5, y*this.size + y*this.gap - this.size / 1.5, this.size, this.size);
+				} else {
+					this.buffer.drawImage(this.imgGreen, x*this.size + x*this.gap, y*this.size + y*this.gap, this.size, this.size);
+				}
+				break;
+			case "2s": 
+				this.buffer.drawImage(this.imgBlueArrow, x*this.size + x*this.gap, y*this.size + y*this.gap, this.size, this.size);
+				break;
+			case "3s": 
+				this.buffer.drawImage(this.imgOrangeArrow, x*this.size + x*this.gap, y*this.size + y*this.gap, this.size, this.size);
+				break;
+			case "4s": 
+				this.buffer.drawImage(this.imgYellowArrow, x*this.size + x*this.gap, y*this.size + y*this.gap, this.size, this.size);
+				break;
+			case "5s": 
+				this.buffer.drawImage(this.imgGreenArrow, x*this.size + x*this.gap, y*this.size + y*this.gap, this.size, this.size);
+				break;
+			case 6:
+				this.buffer.drawImage(this.imgRiver, x*this.size + x*this.gap, y*this.size + y*this.gap, this.size * 3 + 2 * this.gap, this.size * 3 + 2 * this.gap);
+				break;
+			default: 
+				break;
 			}
 		}
-		console.log(imgBlue);
-		this.context.drawImage(this.buffer.canvas, 0, 0, this.buffer.canvas.width, this.buffer.canvas.height, 0, 0, this.context.canvas.width, this.context.canvas.height);
-	};
+	}
+	
+	this.context.translate(this.context.canvas.width / 2, this.context.canvas.height / 2);
+	this.context.rotate(45*Math.PI/180);
+	this.context.translate(-this.context.canvas.width / 2, -this.context.canvas.height / 2);
+	
+	this.context.drawImage(this.buffer.canvas, 0, 0, this.buffer.canvas.width, this.buffer.canvas.height, 0, 0, this.context.canvas.width, this.context.canvas.height);
 
-	const onloadCallback = function() {
+};
+
+Board.prototype.loadImages = function() {
+	let counter = 0;
+	let totalImages = 11;
+
+	this.imgBlue = new Image();
+	this.imgBlue.onload = () => { onloadCallback(); };
+	this.imgBlue.src = "images/tiles/tile-blue@2x.png";
+
+	this.imgBlueArrow = new Image();
+	this.imgBlueArrow.onload = () => { onloadCallback(); };
+	this.imgBlueArrow.src = "images/tiles/tile-blue-arrow@2x.png";
+
+	this.imgGreen = new Image();
+	this.imgGreen.onload = () => { onloadCallback(); };
+	this.imgGreen.src = "images/tiles/tile-munt@2x.png";
+
+	this.imgGreenArrow = new Image();
+	this.imgGreenArrow.onload = () => { onloadCallback(); };
+	this.imgGreenArrow.src = "images/tiles/tile-munt-arrow@2x.png";
+
+	this.imgOrange = new Image();
+	this.imgOrange.onload = () => { onloadCallback(); };
+	this.imgOrange.src = "images/tiles/tile-oranje@2x.png";
+
+	this.imgOrangeArrow = new Image();
+	this.imgOrangeArrow.onload = () => { onloadCallback(); };
+	this.imgOrangeArrow.src = "images/tiles/tile-oranje-arrow@2x.png";
+
+	this.imgYellow = new Image();
+	this.imgYellow.onload = () => { onloadCallback(); };
+	this.imgYellow.src = "images/tiles/tile-yellow@2x.png";
+
+	this.imgYellowArrow = new Image();
+	this.imgYellowArrow.onload = () => { onloadCallback(); };
+	this.imgYellowArrow.src = "images/tiles/tile-yellow-arrow@2x.png";
+
+	this.imgNeutral1 = new Image();
+	this.imgNeutral1.onload = () => { onloadCallback(); };
+	this.imgNeutral1.src = "images/tiles/tile-neutral-1@2x.png";
+
+	this.imgNeutral2 = new Image();
+	this.imgNeutral2.onload = () => { onloadCallback(); };
+	this.imgNeutral2.src = "images/tiles/tile-neutral-2@2x.png";
+
+	this.imgRiver = new Image();
+	this.imgRiver.onload = () => { onloadCallback(); };
+	this.imgRiver.src = "images/tiles/river@2x.png";
+
+	// The onload callback is triggered everytime an image is loaded
+	let onloadCallback = () => {
+		// Increment the counter
 		counter++;
 
-		if (counter < totalImages) {
+		// Verify if the counter is less than the number of images
+		if(counter < totalImages){
 			return;
 		}
 
-		draw();
+		// Trigger the final callback if is the last img
+		allLoadedCallback();
 	};
 
-	// Create the flag variables (counter and total of images)
-	let counter = 0;
-	const totalImages = 6;
-
-	imgBlue.onload = onloadCallback();
-	imgBlue.src = "images/tiles/tile-blue@2x.png";
-
-	imgOrange.onload = onloadCallback();
-	imgOrange.src = "images/tiles/tile-oranje@2x.png";
-
-	imgYellow.onload = onloadCallback();
-	imgYellow.src = "images/tiles/tile-yellow@2x.png";
-
-	imgMunt.onload = onloadCallback();
-	imgMunt.src = "images/tiles/tile-munt@2x.png";
-
-	imgNeutral1.onload = onloadCallback();
-	imgNeutral1.src = "images/tiles/tile-neutral-1@2x.png";
-
-	imgNeutral2.onload = onloadCallback();
-	imgNeutral2.src = "images/tiles/tile-neutral-2@2x.png";
+	// The callback that is executed when all the images have been loaded or not
+	let allLoadedCallback = () => {
+		this.drawMap();
+	};
 };
 
 Board.prototype.resize = function() {
-	this.context.canvas.width = Math.floor(document.documentElement.clientWidth - 32);
 
-	if (this.context.canvas.width > document.documentElement.clientHeight) {
-		this.context.canvas.width = Math.floor(document.documentElement.clientHeight);
-	}
+	let minWidthHeight = Math.floor(Math.min(document.documentElement.clientHeight, document.documentElement.clientWidth)) * 1.08;
 
-	this.context.canvas.height = Math.floor(this.context.canvas.width);
+	this.context.canvas.width = minWidthHeight;
+	this.context.canvas.height = minWidthHeight;
 
-	this.drawMap();
+	this.loadImages();
 };
-	
-// window.addEventListener("resize", resize, {passive:true});
 
-// resize();
+const gameBoard = new Board();
+window.addEventListener("resize", ()=> {
+	gameBoard.resize();
+});
