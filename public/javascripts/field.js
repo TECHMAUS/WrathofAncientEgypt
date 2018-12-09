@@ -4,7 +4,7 @@
  * @param {Number} y    Y-position
  * @param {Number} type Field type
  */
-const Field = function (x, y, type) {
+const Field = function(x, y, type) {
 	this.x = x;
 	this.y = y;
 	this.type = type;

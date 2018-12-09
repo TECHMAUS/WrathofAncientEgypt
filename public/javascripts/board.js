@@ -1,5 +1,7 @@
 // Constructor of Board
 function Board() {
+	this.fields = [];
+	
 	this.initCanvas();
 
 	let resizeTimer;
@@ -14,13 +16,13 @@ function Board() {
 }
 
 /* Create the board layout 
-0: Nothing
+0: No tile
 1: Standard tile
 2: Blue tile
 3: Orange tile
 4: Yellow tile
 5: Green tile
-"s"-addition means it's the starting tile (other image with arrow on it)
+"s"-addition means it's the starting tile (colored tile with arrow on it)
 */
 Board.map = [
 	[0, 0, 0, 0, 0, 1, 1, "3s", 0, 0, 0, 0, 0],
@@ -129,14 +131,17 @@ Board.prototype.drawMap = function() {
 	this.context.translate(this.context.canvas.width / 2, this.context.canvas.height / 2);
 	this.context.rotate(45*Math.PI/180);
 	this.context.translate(-this.context.canvas.width / 2, -this.context.canvas.height / 2);
-	
+
+	this.writeToCanvas();
+};
+
+Board.prototype.writeToCanvas = function() {
 	/* When done making the buffer canvas, write it to the actual canvas */
 	this.context.drawImage(this.buffer.canvas, 0, 0, this.buffer.canvas.width, this.buffer.canvas.height, 0, 0, this.context.canvas.width, this.context.canvas.height);
-
 };
 
 Board.prototype.loadImages = function() {
-	let totalImages = 11; // Total n/o images to load
+	let totalImages = 15; // Total n/o images to load
 	let counter = 0; // Tracks total images loaded
 
 	this.imgBlue = new Image();
@@ -182,6 +187,22 @@ Board.prototype.loadImages = function() {
 	this.imgRiver = new Image();
 	this.imgRiver.onload = () => { onloadCallback(); };
 	this.imgRiver.src = "images/tiles/river@2x.png";
+
+	this.pawnBlue = new Image();
+	this.pawnBlue.onload = () => { onloadCallback(); };
+	this.pawnBlue.src = "images/pawns/cacti@2x.png";
+
+	this.pawnOrange = new Image();
+	this.pawnOrange.onload = () => { onloadCallback(); };
+	this.pawnOrange.src = "images/pawns/cart@2x.png";
+
+	this.pawnYellow = new Image();
+	this.pawnYellow.onload = () => { onloadCallback(); };
+	this.pawnYellow.src = "images/pawns/skull@2x.png";
+
+	this.pawnGreen = new Image();
+	this.pawnGreen.onload = () => { onloadCallback(); };
+	this.pawnGreen.src = "images/pawns/snake@2x.png";
 
 	// The onload callback is triggered everytime an image is loaded
 	let onloadCallback = () => {
