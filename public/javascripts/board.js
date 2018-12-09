@@ -1,7 +1,27 @@
-const Board = function() {
-	this.init();
-};
+// Constructor of Board
+function Board() {
+	this.initCanvas();
 
+	let resizeTimer;
+
+	window.addEventListener("resize", ()=> {
+		clearTimeout(resizeTimer);
+
+		resizeTimer = setTimeout(() => {
+			this.resize();
+		}, 250);
+	});
+}
+
+/* Create the board layout 
+0: Nothing
+1: Standard tile
+2: Blue tile
+3: Orange tile
+4: Yellow tile
+5: Green tile
+"s"-addition means it's the starting tile (other image with arrow on it)
+*/
 Board.map = [
 	[0, 0, 0, 0, 0, 1, 1, "3s", 0, 0, 0, 0, 0],
 	[0, 0, 0, 0, 0, 1, 3, 1, 0, 0, 0, 0, 0],
@@ -18,9 +38,11 @@ Board.map = [
 	[0, 0, 0, 0, 0, "5s", 1, 1, 0, 0, 0, 0, 0]
 ];
 
-Board.prototype.init = function() {
-	this.buffer = document.createElement("canvas").getContext("2d");
-	this.context = document.querySelector("canvas").getContext("2d");
+Board.prototype.initCanvas = function() {
+	this.buffer = document.createElement("canvas").getContext("2d"); // Set a temp canvas buffer
+	this.context = document.querySelector("canvas").getContext("2d"); 
+
+	// Set size of the temp canvas
 	this.size = 144;
 	this.gap = 40;
 	this.buffer.canvas.width = 13 * this.size + 12 * this.gap;
@@ -33,13 +55,16 @@ Board.prototype.drawMap = function() {
 
 	let i = 1;
 
+	/* Map through every position in the map layout */
 	for (let y=0; y < Board.map.length; y++) {
 		for (let x=0; x <  Board.map.length; x++) {
-			i++;
+			i++; // Counter used to alternate the normal tiles
+
 			switch(Board.map[y][x]) {
 			case 0: 
 				break;
 			case 1: 
+			/* Change the neutral tile image every other tile */
 				if (i % 2 == 0) {
 					this.buffer.drawImage(this.imgNeutral1, x*this.size + x*this.gap, y*this.size + y*this.gap, this.size, this.size);
 				} 
@@ -48,6 +73,7 @@ Board.prototype.drawMap = function() {
 				}
 				break;
 			case 2: 
+				/* Places the tiles of the player's base on a different position */
 				if ((x == 2 && (y == 2 || y == 3)) || (x == 3 && (y == 2 || y == 3)) ) {
 					this.buffer.drawImage(this.imgBlue, x*this.size + x*this.gap + this.size / 1.5, y*this.size + y*this.gap + this.size / 1.5, this.size, this.size);
 				} else {
@@ -55,6 +81,7 @@ Board.prototype.drawMap = function() {
 				}
 				break;
 			case 3: 
+				/* Places the tiles of the player's base on a different position */
 				if ((x == 9 && (y == 2 || y == 3)) || (x == 10 && (y == 2 || y == 3)) ) {
 					this.buffer.drawImage(this.imgOrange, x*this.size + x*this.gap - this.size / 1.5, y*this.size + y*this.gap + this.size / 1.5, this.size, this.size);
 				} else {
@@ -62,6 +89,7 @@ Board.prototype.drawMap = function() {
 				}
 				break;
 			case 4: 
+				/* Places the tiles of the player's base on a different position */
 				if ((x == 9 && (y == 9 || y == 10)) || (x == 10 && (y == 9 || y == 10)) ) {
 					this.buffer.drawImage(this.imgYellow, x*this.size + x*this.gap - this.size / 1.5, y*this.size + y*this.gap - this.size / 1.5, this.size, this.size);
 				} else {
@@ -69,6 +97,7 @@ Board.prototype.drawMap = function() {
 				}
 				break;
 			case 5: 
+				/* Places the tiles of the player's base on a different position */
 				if ((x == 2 && (y == 9 || y == 10)) || (x == 3 && (y == 9 || y == 10)) ) {
 					this.buffer.drawImage(this.imgGreen, x*this.size + x*this.gap + this.size / 1.5, y*this.size + y*this.gap - this.size / 1.5, this.size, this.size);
 				} else {
@@ -96,17 +125,19 @@ Board.prototype.drawMap = function() {
 		}
 	}
 	
+	/* Rotates the canvas 45deg, to do so we have to translate the canvas so it will turn around it's center point */
 	this.context.translate(this.context.canvas.width / 2, this.context.canvas.height / 2);
 	this.context.rotate(45*Math.PI/180);
 	this.context.translate(-this.context.canvas.width / 2, -this.context.canvas.height / 2);
 	
+	/* When done making the buffer canvas, write it to the actual canvas */
 	this.context.drawImage(this.buffer.canvas, 0, 0, this.buffer.canvas.width, this.buffer.canvas.height, 0, 0, this.context.canvas.width, this.context.canvas.height);
 
 };
 
 Board.prototype.loadImages = function() {
-	let counter = 0;
-	let totalImages = 11;
+	let totalImages = 11; // Total n/o images to load
+	let counter = 0; // Tracks total images loaded
 
 	this.imgBlue = new Image();
 	this.imgBlue.onload = () => { onloadCallback(); };
@@ -166,7 +197,7 @@ Board.prototype.loadImages = function() {
 		allLoadedCallback();
 	};
 
-	// The callback that is executed when all the images have been loaded or not
+	// The callback that is executed when all the images have been loaded
 	let allLoadedCallback = () => {
 		this.drawMap();
 	};
@@ -174,15 +205,13 @@ Board.prototype.loadImages = function() {
 
 Board.prototype.resize = function() {
 
-	let minWidthHeight = Math.floor(Math.min(document.documentElement.clientHeight, document.documentElement.clientWidth)) * 1.08;
+	/* Look which is smaller, either height or width of users window and set it as the width/height for the canvas */
+	let canvasWidthHeight = Math.floor(Math.min(document.documentElement.clientHeight, document.documentElement.clientWidth)); 
 
-	this.context.canvas.width = minWidthHeight;
-	this.context.canvas.height = minWidthHeight;
+	this.context.canvas.width = canvasWidthHeight;
+	this.context.canvas.height = canvasWidthHeight;
 
 	this.loadImages();
 };
 
 const gameBoard = new Board();
-window.addEventListener("resize", ()=> {
-	gameBoard.resize();
-});
