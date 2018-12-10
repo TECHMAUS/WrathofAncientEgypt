@@ -1,7 +1,7 @@
 let modals = {
 	help: document.getElementById("help-modal"),
 	exitGame: document.getElementById("exit-game-modal"),
-	enterUsername: document.getElementById("enter-username-modal"),
+	enterUsername: document.getElementById("enter-username-modal")
 };
 
 function toggleModalVisibility(modal) {
@@ -14,15 +14,7 @@ function toggleModalVisibility(modal) {
 	modal.classList.toggle("open");
 }
 
-const gameBoard = new Board();
-
-var socket = new WebSocket("ws://localhost:3000");
-socket.onmessage = function(event){
-	console.log(event.data);
-};
-
-socket.onopen = function(){
-	socket.send("Hello from the client!");
-};
+new Board();
+new WebSocket("ws://localhost:3000");
 
 

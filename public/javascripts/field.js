@@ -51,4 +51,4 @@ Field.prototype.getPawn = function () {
  */
 Field.prototype.setPawn = function (pawn) {
 	this.pawn = pawn || null;
-}; balblalbalblalbl
+};
