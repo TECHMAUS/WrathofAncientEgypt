@@ -16,7 +16,7 @@
         </div>
 
         <div class="game-buttons">
-            <button onclick="toggleModalVisibility(modals.enterGame);" class="btn has-text-uppercase text-color-white has-box-shadow">Start playing</button>
+            <a href="/game" class="btn has-text-uppercase text-color-white has-box-shadow">Start playing</a>
             <button onclick="toggleModalVisibility(modals.help);" class="btn has-text-uppercase text-color-white has-box-shadow">How to play?</button>
             <button onclick="toggleModalVisibility(modals.about);" class="btn has-text-uppercase text-color-white has-box-shadow">About</button>
         </div>
@@ -53,23 +53,6 @@
                     Lorem ipsum dolor, sit amet consectetur adipisicing elit. Odio hic necessitatibus sed est in voluptate dicta quasi. Saepe inventore architecto totam iste consequuntur vitae quidem, ex veritatis et laudantium veniam?
                 </p>
             </p>
-        </div>
-        <div id="enter-game-modal" class="modal has-box-shadow">
-            <div class="close-btn" onclick="toggleModalVisibility(modals.enterGame);"><img src="images/close@2x.png"/></div>
-            <h2 class="has-text-uppercase">Almost ready!</h2>
-            <hr>
-            <form action="/game">
-                <span class="has-text-regular">Enter a username:</span></br>
-                <input type="text" name="username" placeholder="username" pattern="[a-zA-Z0-9_-@$&]+" maxlength="12" minlength="3" required>
-                <input type="submit" value="Start the game!"></br>
-                <span class="has-text-light"><em>
-                    <ul>
-                        <li>Please use <strong>only</strong> letters, numbers and _ - @ $ &</li>
-                        <li>Use between 3-12 characters</li>
-                        <li>No spaces allowed</li>
-                    </ul>
-                </em></span>
-            </form>
         </div>
         <div id="about-modal" class="modal has-box-shadow has-text-light">
                 <div class="close-btn" onclick="toggleModalVisibility(modals.about);"><img src="images/close@2x.png"/></div>

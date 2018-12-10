@@ -12,19 +12,19 @@
     <div class="wrapper">
         <div class="player player-blue">
             <img class="player-coin" src="images/coin-blue@2x.png" />
-            <h3 class="player-name"><%=username%></h3>
+            <h3 class="player-name">Player 1</h3>
         </div>
         <div class="player player-orange">
             <img class="player-coin" src="images/coin-orange@2x.png" />
-            <h3 class="player-name"><%=username%></h3>
+            <h3 class="player-name">Player 2</h3>
         </div>
         <div class="player player-green">
             <img class="player-coin" src="images/coin-green@2x.png" />
-            <h3 class="player-name"><%=username%></h3>
+            <h3 class="player-name">Player 3</h3>
         </div>
         <div class="player player-yellow">
             <img class="player-coin" src="images/coin-yellow@2x.png" />
-            <h3 class="player-name"><%=username%></h3>
+            <h3 class="player-name">Player 4</h3>
         </div>
         <div class="control-buttons">
                 <div class="close-btn" onclick="toggleModalVisibility(modals.exitGame);"><img src="images/close@2x.png"/></div>
@@ -42,6 +42,23 @@
         <a class="exit-btn" href="/">Yes, return to the homepage</a>
     </div>
 
+    <div id="enter-username-modal" class="modal has-box-shadow">
+        <div class="close-btn" onclick="toggleModalVisibility(modals.enterUsername);"><img src="images/close@2x.png"/></div>
+        <h2 class="has-text-uppercase">Almost ready!</h2>
+        <hr>
+        <form action="/game" method="post">
+            <span class="has-text-regular">Enter a username:</span></br>
+            <input type="text" name="username" placeholder="username" pattern="[a-zA-Z0-9_-@$&]+" maxlength="12" minlength="3" required>
+            <input type="submit" value="Start the game!"></br>
+            <span class="has-text-light"><em>
+                <ul>
+                    <li>Please use <strong>only</strong> letters, numbers and _ - @ $ &</li>
+                    <li>Use between 3-12 characters</li>
+                    <li>No spaces allowed</li>
+                </ul>
+            </em></span>
+        </form>
+    </div>
     <div id="help-modal" class="modal has-box-shadow has-text-light">
         <div class="close-btn" onclick="toggleModalVisibility(modals.help);"><img src="images/close@2x.png"/></div>
             <h2 class="has-text-uppercase">How to play this game?</h2>

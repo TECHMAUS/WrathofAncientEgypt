@@ -1,8 +1,9 @@
 const express = require("express");
-var http = require("http");
 const path = require("path");
 const port = process.argv[2];
 const routes = require("./routes/index");
+const http = require("http");
+const websocket = require("ws");
 
 const app = express();
 
@@ -17,27 +18,22 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use("/", routes);
 
 
-// var server = http.createServer(app);
-// const wss = new WebSocket.Server({ server });
+const server = http.createServer(app);
+const wss = new websocket.Server({ server });
 
-// var websockets = {};
+wss.on("connection", function(ws) {
+	//let's slow down the server response time a bit to make the change visible on the client side
+	setTimeout(function() {
+		console.log("Connection state: "+ ws.readyState);
+		ws.send("Thanks for the message. --Your server.");
+		ws.close();
+		console.log("Connection state: "+ ws.readyState);
+	}, 2000);
 
-// setInterval(function() {
-// 	for(let i in websockets){
-// 		if(websockets.hasOwnProperty(i)){
-// 			let gameObj = websockets[i];
-// 			//if the gameObj has a final status, the game is complete/aborted
-// 			if(gameObj.finalStatus!=null){
-// 				console.log("\tDeleting element "+i);
-// 				delete websockets[i];
-// 			}
-// 		}
-// 	}
-// }, 50000);
-
-// wss.on("connection", function connection(ws)) {
-	
-// }
+	ws.on("message", function incoming(message) {
+		console.log("[LOG] " + message);
+	});
+});
 
 
-app.listen(port, () => console.log(`App listening on port ${port}!`));
+server.listen(port, () => console.log(`App listening on port ${port}!`));

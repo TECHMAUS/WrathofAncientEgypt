@@ -71,9 +71,9 @@ Board.prototype.resetBoard = function() {
 
 Board.prototype.drawBoard = function() {
 
-	this.fields.map((x) => { 
-		x.map((y) => {
-			this.buffer.drawImage(y.img, y.x - this.size / 2, y.y - this.size / 2, this.size, this.size);
+	this.fields.map((row) => { 
+		row.map((field) => {
+			this.buffer.drawImage(field.img, field.x - this.size / 2, field.y - this.size / 2, this.size, this.size);
 		});
 	});
 

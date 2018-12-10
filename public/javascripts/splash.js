@@ -1,6 +1,5 @@
 let modals = {
 	help: document.getElementById("help-modal"),
-	enterGame: document.getElementById("enter-game-modal"),
 	about: document.getElementById("about-modal")
 };
 

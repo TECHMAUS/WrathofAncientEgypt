@@ -89,6 +89,7 @@ body.game .wrapper {
   font-size: 1.5em;
   display: block;
   border-style: none;
+  text-decoration: none;
 }
 
 .btn:hover {
@@ -96,7 +97,7 @@ body.game .wrapper {
   cursor: pointer;
 }
 
-.btn:not(:first-of-type) {
+.btn:not(:first-child) {
   margin-top: 24px;
 }
 

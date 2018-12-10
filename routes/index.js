@@ -6,9 +6,7 @@ router.get("/", (req, res) => {
 });
 
 router.get("/game", (req, res) => {
-	let username = req.params.username;
- 
-	res.render("game", {username: username});
+	res.render("game", {});
 });
 
 module.exports = router;
