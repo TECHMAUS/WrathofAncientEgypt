@@ -1,3 +1,5 @@
+
+
 let modals = {
 	help: document.getElementById("help-modal"),
 	exitGame: document.getElementById("exit-game-modal"),
@@ -12,5 +14,7 @@ function toggleModalVisibility(modal) {
 	});
 	modal.classList.toggle("open");
 }
+
+const gameBoard = new Board();
 
 

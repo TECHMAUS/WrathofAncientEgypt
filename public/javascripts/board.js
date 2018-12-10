@@ -2,7 +2,7 @@
 function Board() {
 	this.fields = [];
 	
-	this.initCanvas();
+	this.loadImages();
 
 	let resizeTimer;
 
@@ -30,7 +30,7 @@ Board.map = [
 	[0, 0, 2, 2, 0, 1, 3, 1, 0, 3, 3, 0, 0],
 	[0, 0, 2, 2, 0, 1, 3, 1, 0, 3, 3, 0, 0],
 	[0, 0, 0, 0, 0, 1, 3, 1, 0, 0, 0, 0, 0],
-	["2s", 1, 1, 1, 1, 6, 0, 0, 1, 1, 1, 1, 1],
+	["2s", 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1],
 	[1, 2, 2, 2, 2, 0, 0, 0, 4, 4, 4, 4, 1],
 	[1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, "4s"],
 	[0, 0, 0, 0, 0, 1, 5, 1, 0, 0, 0, 0, 0],
@@ -53,80 +53,32 @@ Board.prototype.initCanvas = function() {
 	this.resize();
 };
 
-Board.prototype.drawMap = function() {
+Board.prototype.resetBoard = function() {
+	delete this.fields;
+	this.fields = [];
 
-	let i = 1;
-
-	/* Map through every position in the map layout */
+	/* Map through every position in the map layout and push new field */
 	for (let y=0; y < Board.map.length; y++) {
-		for (let x=0; x <  Board.map.length; x++) {
-			i++; // Counter used to alternate the normal tiles
-
-			switch(Board.map[y][x]) {
-			case 0: 
-				break;
-			case 1: 
-			/* Change the neutral tile image every other tile */
-				if (i % 2 == 0) {
-					this.buffer.drawImage(this.imgNeutral1, x*this.size + x*this.gap, y*this.size + y*this.gap, this.size, this.size);
-				} 
-				else {
-					this.buffer.drawImage(this.imgNeutral2, x*this.size + x*this.gap, y*this.size + y*this.gap, this.size, this.size);
-				}
-				break;
-			case 2: 
-				/* Places the tiles of the player's base on a different position */
-				if ((x == 2 && (y == 2 || y == 3)) || (x == 3 && (y == 2 || y == 3)) ) {
-					this.buffer.drawImage(this.imgBlue, x*this.size + x*this.gap + this.size / 1.5, y*this.size + y*this.gap + this.size / 1.5, this.size, this.size);
-				} else {
-					this.buffer.drawImage(this.imgBlue, x*this.size + x*this.gap, y*this.size + y*this.gap, this.size, this.size);
-				}
-				break;
-			case 3: 
-				/* Places the tiles of the player's base on a different position */
-				if ((x == 9 && (y == 2 || y == 3)) || (x == 10 && (y == 2 || y == 3)) ) {
-					this.buffer.drawImage(this.imgOrange, x*this.size + x*this.gap - this.size / 1.5, y*this.size + y*this.gap + this.size / 1.5, this.size, this.size);
-				} else {
-					this.buffer.drawImage(this.imgOrange, x*this.size + x*this.gap, y*this.size + y*this.gap, this.size, this.size);
-				}
-				break;
-			case 4: 
-				/* Places the tiles of the player's base on a different position */
-				if ((x == 9 && (y == 9 || y == 10)) || (x == 10 && (y == 9 || y == 10)) ) {
-					this.buffer.drawImage(this.imgYellow, x*this.size + x*this.gap - this.size / 1.5, y*this.size + y*this.gap - this.size / 1.5, this.size, this.size);
-				} else {
-					this.buffer.drawImage(this.imgYellow, x*this.size + x*this.gap, y*this.size + y*this.gap, this.size, this.size); 
-				}
-				break;
-			case 5: 
-				/* Places the tiles of the player's base on a different position */
-				if ((x == 2 && (y == 9 || y == 10)) || (x == 3 && (y == 9 || y == 10)) ) {
-					this.buffer.drawImage(this.imgGreen, x*this.size + x*this.gap + this.size / 1.5, y*this.size + y*this.gap - this.size / 1.5, this.size, this.size);
-				} else {
-					this.buffer.drawImage(this.imgGreen, x*this.size + x*this.gap, y*this.size + y*this.gap, this.size, this.size);
-				}
-				break;
-			case "2s": 
-				this.buffer.drawImage(this.imgBlueArrow, x*this.size + x*this.gap, y*this.size + y*this.gap, this.size, this.size);
-				break;
-			case "3s": 
-				this.buffer.drawImage(this.imgOrangeArrow, x*this.size + x*this.gap, y*this.size + y*this.gap, this.size, this.size);
-				break;
-			case "4s": 
-				this.buffer.drawImage(this.imgYellowArrow, x*this.size + x*this.gap, y*this.size + y*this.gap, this.size, this.size);
-				break;
-			case "5s": 
-				this.buffer.drawImage(this.imgGreenArrow, x*this.size + x*this.gap, y*this.size + y*this.gap, this.size, this.size);
-				break;
-			case 6:
-				this.buffer.drawImage(this.imgRiver, x*this.size + x*this.gap, y*this.size + y*this.gap, this.size * 3 + 2 * this.gap, this.size * 3 + 2 * this.gap);
-				break;
-			default: 
-				break;
+		this.fields[y] = [];
+		for (let x=0; x <  Board.map.length; x++) 
+			if(Board.map[y][x] != 0) {
+				this.fields[y].push(new Field(x*this.size + x*this.gap + this.size / 2, y*this.size + y*this.gap + this.size / 2, Board.map[y][x]));
 			}
-		}
 	}
-	
+
+	this.drawBoard();
+};
+
+Board.prototype.drawBoard = function() {
+
+	this.fields.map((x) => { 
+		x.map((y) => {
+			this.buffer.drawImage(y.img, y.x - this.size / 2, y.y - this.size / 2, this.size, this.size);
+		});
+	});
+
+	this.buffer.drawImage(Board.prototype.imgRiver, 5* (this.size + this.gap), 5* (this.size + this.gap), this.size * 3 + 2 * this.gap, this.size * 3 + 2 * this.gap)
+
 	/* Rotates the canvas 45deg, to do so we have to translate the canvas so it will turn around it's center point */
 	this.context.translate(this.context.canvas.width / 2, this.context.canvas.height / 2);
 	this.context.rotate(45*Math.PI/180);
@@ -144,65 +96,65 @@ Board.prototype.loadImages = function() {
 	let totalImages = 15; // Total n/o images to load
 	let counter = 0; // Tracks total images loaded
 
-	this.imgBlue = new Image();
-	this.imgBlue.onload = () => { onloadCallback(); };
-	this.imgBlue.src = "images/tiles/tile-blue@2x.png";
+	Board.prototype.imgBlue = new Image();
+	Board.prototype.imgBlue.onload = () => { onloadCallback(); };
+	Board.prototype.imgBlue.src = "images/tiles/tile-blue@2x.png";
 
-	this.imgBlueArrow = new Image();
-	this.imgBlueArrow.onload = () => { onloadCallback(); };
-	this.imgBlueArrow.src = "images/tiles/tile-blue-arrow@2x.png";
+	Board.prototype.imgBlueArrow = new Image();
+	Board.prototype.imgBlueArrow.onload = () => { onloadCallback(); };
+	Board.prototype.imgBlueArrow.src = "images/tiles/tile-blue-arrow@2x.png";
 
-	this.imgGreen = new Image();
-	this.imgGreen.onload = () => { onloadCallback(); };
-	this.imgGreen.src = "images/tiles/tile-munt@2x.png";
+	Board.prototype.imgGreen = new Image();
+	Board.prototype.imgGreen.onload = () => { onloadCallback(); };
+	Board.prototype.imgGreen.src = "images/tiles/tile-munt@2x.png";
 
-	this.imgGreenArrow = new Image();
-	this.imgGreenArrow.onload = () => { onloadCallback(); };
-	this.imgGreenArrow.src = "images/tiles/tile-munt-arrow@2x.png";
+	Board.prototype.imgGreenArrow = new Image();
+	Board.prototype.imgGreenArrow.onload = () => { onloadCallback(); };
+	Board.prototype.imgGreenArrow.src = "images/tiles/tile-munt-arrow@2x.png";
 
-	this.imgOrange = new Image();
-	this.imgOrange.onload = () => { onloadCallback(); };
-	this.imgOrange.src = "images/tiles/tile-oranje@2x.png";
+	Board.prototype.imgOrange = new Image();
+	Board.prototype.imgOrange.onload = () => { onloadCallback(); };
+	Board.prototype.imgOrange.src = "images/tiles/tile-oranje@2x.png";
 
-	this.imgOrangeArrow = new Image();
-	this.imgOrangeArrow.onload = () => { onloadCallback(); };
-	this.imgOrangeArrow.src = "images/tiles/tile-oranje-arrow@2x.png";
+	Board.prototype.imgOrangeArrow = new Image();
+	Board.prototype.imgOrangeArrow.onload = () => { onloadCallback(); };
+	Board.prototype.imgOrangeArrow.src = "images/tiles/tile-oranje-arrow@2x.png";
 
-	this.imgYellow = new Image();
-	this.imgYellow.onload = () => { onloadCallback(); };
-	this.imgYellow.src = "images/tiles/tile-yellow@2x.png";
+	Board.prototype.imgYellow = new Image();
+	Board.prototype.imgYellow.onload = () => { onloadCallback(); };
+	Board.prototype.imgYellow.src = "images/tiles/tile-yellow@2x.png";
 
-	this.imgYellowArrow = new Image();
-	this.imgYellowArrow.onload = () => { onloadCallback(); };
-	this.imgYellowArrow.src = "images/tiles/tile-yellow-arrow@2x.png";
+	Board.prototype.imgYellowArrow = new Image();
+	Board.prototype.imgYellowArrow.onload = () => { onloadCallback(); };
+	Board.prototype.imgYellowArrow.src = "images/tiles/tile-yellow-arrow@2x.png";
 
-	this.imgNeutral1 = new Image();
-	this.imgNeutral1.onload = () => { onloadCallback(); };
-	this.imgNeutral1.src = "images/tiles/tile-neutral-1@2x.png";
+	Board.prototype.imgNeutral1 = new Image();
+	Board.prototype.imgNeutral1.onload = () => { onloadCallback(); };
+	Board.prototype.imgNeutral1.src = "images/tiles/tile-neutral-1@2x.png";
 
-	this.imgNeutral2 = new Image();
-	this.imgNeutral2.onload = () => { onloadCallback(); };
-	this.imgNeutral2.src = "images/tiles/tile-neutral-2@2x.png";
+	Board.prototype.imgNeutral2 = new Image();
+	Board.prototype.imgNeutral2.onload = () => { onloadCallback(); };
+	Board.prototype.imgNeutral2.src = "images/tiles/tile-neutral-2@2x.png";
 
-	this.imgRiver = new Image();
-	this.imgRiver.onload = () => { onloadCallback(); };
-	this.imgRiver.src = "images/tiles/river@2x.png";
+	Board.prototype.imgRiver = new Image();
+	Board.prototype.imgRiver.onload = () => { onloadCallback(); };
+	Board.prototype.imgRiver.src = "images/tiles/river@2x.png";
 
-	this.pawnBlue = new Image();
-	this.pawnBlue.onload = () => { onloadCallback(); };
-	this.pawnBlue.src = "images/pawns/cacti@2x.png";
+	Board.prototype.pawnBlue = new Image();
+	Board.prototype.pawnBlue.onload = () => { onloadCallback(); };
+	Board.prototype.pawnBlue.src = "images/pawns/cacti@2x.png";
 
-	this.pawnOrange = new Image();
-	this.pawnOrange.onload = () => { onloadCallback(); };
-	this.pawnOrange.src = "images/pawns/cart@2x.png";
+	Board.prototype.pawnOrange = new Image();
+	Board.prototype.pawnOrange.onload = () => { onloadCallback(); };
+	Board.prototype.pawnOrange.src = "images/pawns/cart@2x.png";
 
-	this.pawnYellow = new Image();
-	this.pawnYellow.onload = () => { onloadCallback(); };
-	this.pawnYellow.src = "images/pawns/skull@2x.png";
+	Board.prototype.pawnYellow = new Image();
+	Board.prototype.pawnYellow.onload = () => { onloadCallback(); };
+	Board.prototype.pawnYellow.src = "images/pawns/skull@2x.png";
 
-	this.pawnGreen = new Image();
-	this.pawnGreen.onload = () => { onloadCallback(); };
-	this.pawnGreen.src = "images/pawns/snake@2x.png";
+	Board.prototype.pawnGreen = new Image();
+	Board.prototype.pawnGreen.onload = () => { onloadCallback(); };
+	Board.prototype.pawnGreen.src = "images/pawns/snake@2x.png";
 
 	// The onload callback is triggered everytime an image is loaded
 	let onloadCallback = () => {
@@ -220,7 +172,7 @@ Board.prototype.loadImages = function() {
 
 	// The callback that is executed when all the images have been loaded
 	let allLoadedCallback = () => {
-		this.drawMap();
+		this.initCanvas();
 	};
 };
 
@@ -232,7 +184,5 @@ Board.prototype.resize = function() {
 	this.context.canvas.width = canvasWidthHeight;
 	this.context.canvas.height = canvasWidthHeight;
 
-	this.loadImages();
+	this.resetBoard();
 };
-
-const gameBoard = new Board();

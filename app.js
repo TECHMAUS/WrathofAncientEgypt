@@ -1,42 +1,43 @@
-var http = require("http");
 const express = require("express");
+var http = require("http");
+const path = require("path");
 const port = process.argv[2];
+const routes = require("./routes/index");
+
 const app = express();
 
-app.set("view engine", "ejs");
-app.use(express.static(__dirname + "/public"));
+// view engine setup
+app.set("views", path.join(__dirname, "views")); // this is the folder where we keep our pug files
+app.set("view engine", "ejs"); // we use EJS engine
 
-app.get("/", (req, res) => {
-	res.render("splash", {});
-});
+// serves up static files from the public folder. Anything in public/ will just be served up as the file it is
+app.use(express.static(path.join(__dirname, "public")));
 
-app.get("/game", function(req, res) {
-	let username = req.param("username");
- 
-	res.render("game", {username: username});
-});
+// Handle our routes
+app.use("/", routes);
 
-var server = http.createServer(app);
-const wss = new WebSocket.Server({ server });
 
-var websockets = {};
+// var server = http.createServer(app);
+// const wss = new WebSocket.Server({ server });
 
-setInterval(function() {
-	for(let i in websockets){
-		if(websockets.hasOwnProperty(i)){
-			let gameObj = websockets[i];
-			//if the gameObj has a final status, the game is complete/aborted
-			if(gameObj.finalStatus!=null){
-				console.log("\tDeleting element "+i);
-				delete websockets[i];
-			}
-		}
-	}
-}, 50000);
+// var websockets = {};
 
-wss.on("connection", function connection(ws)) {
+// setInterval(function() {
+// 	for(let i in websockets){
+// 		if(websockets.hasOwnProperty(i)){
+// 			let gameObj = websockets[i];
+// 			//if the gameObj has a final status, the game is complete/aborted
+// 			if(gameObj.finalStatus!=null){
+// 				console.log("\tDeleting element "+i);
+// 				delete websockets[i];
+// 			}
+// 		}
+// 	}
+// }, 50000);
+
+// wss.on("connection", function connection(ws)) {
 	
-}
+// }
 
 
 app.listen(port, () => console.log(`App listening on port ${port}!`));
