@@ -4,6 +4,7 @@ const port = process.argv[2];
 const routes = require("./routes/index");
 const http = require("http");
 const websocket = require("ws");
+// const game = require("./game");
 
 const app = express();
 
@@ -20,6 +21,8 @@ app.use("/", routes);
 
 const server = http.createServer(app);
 const wss = new websocket.Server({ server });
+
+var websockets = {};//property: websocket, value: game
 
 wss.on("connection", function(ws) {
 	//let's slow down the server response time a bit to make the change visible on the client side
