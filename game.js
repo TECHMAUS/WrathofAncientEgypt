@@ -37,4 +37,10 @@ Game.prototype.hasFourConnectedPlayers = function() {
 	return (this.players.length == 4);
 };
 
+Game.prototype.setStatus = function (w) {
+	console.assert(typeof w == "string", "%s: Expecting a string, got a %s", arguments.callee.name, typeof w);
+	this.gameState = w;
+	console.log("[STATUS] %s", this.gameState);
+};
+
 module.exports = Game;
